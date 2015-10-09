@@ -5,16 +5,15 @@ $(function () {
             x: -20 //center
         },
         subtitle: {
-            text: 'Source: UN.org',
+            text: 'Source: http://hdr.undp.org/en/content/table-2-human-development-index-trends-1980-2013',
             x: -20
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            categories: [2000, 2005, 2008, 2010, 2011, 2012, 2013]
         },
         yAxis: {
             title: {
-                text: 'Age'
+                text: ''
             },
             plotLines: [{
                 value: 0,
@@ -23,7 +22,7 @@ $(function () {
             }]
         },
         tooltip: {
-            valueSuffix: '°C'
+            valueSuffix: ''
         },
         legend: {
             layout: 'vertical',
@@ -32,17 +31,23 @@ $(function () {
             borderWidth: 0
         },
         series: [{
-            name: 'Poverty',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            name: 'United States',
+            data: [0.883, 0.897, 0.905, 0.908, 0.911, 0.912, 0.914]
         }, {
-            name: 'Education',
-            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+            name: 'Cuba',
+            data: [0.742, 0.786, 0.830, 0.824, 0.819, 0.813, 0.815]
         }, {
-            name: 'Mortality',
-            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+            name: 'Poland',
+            data: [0.784, 0.803, 0.817,	0.826, 0.830, 0.833, 0.834]
         }, {
-            name: 'Crimes',
-            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            name: 'Libya',
+            data: [0.745, 0.772, 0.789, 0.799, 0.753, 0.789, 0.784]
+        },{
+            name: 'Malaysia',
+            data: [0.717, 0.747, 0.760, 0.766, 0.768, 0.770, 0.773]
+        },{
+            name: 'Congo',
+            data: [0.501, 0.525, 0.548, 0.565, 0.549, 0.561, 0.564]
         }]
     });
 });
