@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Client Side Dev</title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=1.0">
 </head>
 <body>
@@ -10,13 +11,24 @@
 
     <h1>Test Header</h1>
     <section class="section-title-with-selector" >
-      <h2>Human Development Index Over Time</h2>
+      	<h2>Human Development Index Over Time</h2>
+
+  		<label for="selector">Select: </label>
+  		<select name="selector" id="selector" style="width: 20%">
+  			<option value="0">United States</option>
+  			<option value="1">Cuba</option>
+  			<option value="2">Poland</option>
+  			<option value="3">Libya</option>
+  			<option value="4">Malaysia</option>
+  			<option value="5">Congo</option>
+  		</select>
+  		<div class="example-log"></div>
     </section>
     <section class="help-text">
       <p>The Human Development Index (HDI) is a composite index measuring average of the three basic metrics of human development: life expectancy, education rate, and average standard of living. <a target="_blank" href="http://hdr.undp.org/en">More detail</a>   </p>
 
     </section>
-<section class="table-align-left">
+	<section class="table-align-left">
     	<section class="data-table">
   		<!-- Using HDI 2013 Data as Default -->
           <table class="table">
@@ -70,9 +82,12 @@
       </section>
     </section>
 
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <section>
+    	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <script src="js/script.js"></script>
