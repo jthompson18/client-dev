@@ -1,6 +1,41 @@
+
+/*set design style for the headings*/
+.main-view{
+  margin: 15px;
+}
+
+h1{
+	font: bold 20px Tahoma;
+  text-align: center;
+}
+h2{
+	font: bold 16px Tahoma;
+
+}
+.section-title-with-selector{
+  margin-top: 20px;
+  text-align: left;
+}
+/*set design so it's compatible or so it works with all browsers*/
+
+/*set design for the body of the website - remember to implement styling for
+class, id and pseudo class */
+
+/*aligning general text to center of the page - will adjust text to align left
+or right if needed.
+design style for background, border, margin, width, padding, color,
+text-alignment, list style and float for the body of the website*/
+
+.help-text {
+  text-align: left;
+  width: 830px;
+}
+.table-align-left{
+  float: left;
+}
 .data-table {
     margin:auto;
-    margin-top:60px;
+    width: 800px;
 }
 .table{
     width:100%;
@@ -41,29 +76,6 @@
 
 /*TRADITIONAL BOX MODEL Layout*/
 /*colors will be changed - bright colors just makes it easier to see*/
-*{
-/*set style for the whole document*/
-  margin:0px;
-	padding: 0px;
-}
-/*set design style for the headings*/
-h1{
-	font: bold 20px Tahoma;
-}
-h2{
-	font: bold 14px Tahoma;
-}
-/*set design so it's compatible or so it works with all browsers*/
-header, section, footer, aside, nav, article, hgroup{
-	display:block;
-}
-/*set design for the body of the website - remember to implement styling for
-class, id and pseudo class */
-
-/*aligning general text to center of the page - will adjust text to align left
-or right if needed.
-design style for background, border, margin, width, padding, color,
-text-alignment, list style and float for the body of the website*/
 body{
 	text-align:center;
 }
