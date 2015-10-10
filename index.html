@@ -10,34 +10,37 @@
   <section class="main-view">
 
     <h1>Test Header</h1>
-    <section class="section-title-with-selector" >
+    <section class="section-title" >
       	<h2>Human Development Index Over Time</h2>
-
-  		<label for="selector">Select: </label>
-  		<select name="selector" id="selector" style="width: 20%">
-  			<option value="0">United States</option>
-  			<option value="1">Cuba</option>
-  			<option value="2">Poland</option>
-  			<option value="3">Libya</option>
-  			<option value="4">Malaysia</option>
-  			<option value="5">Congo</option>
-  		</select>
+        <section>
+          <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        </section>
   		<div class="example-log"></div>
     </section>
     <section class="help-text">
       <p>The Human Development Index (HDI) is a composite index measuring average of the three basic metrics of human development: life expectancy, education rate, and average standard of living. <a target="_blank" href="http://hdr.undp.org/en">More detail</a>   </p>
-
     </section>
+    <section class="selector-left">
+    <label for="selector">Select: </label>
+    <select name="selector" id="selector" style="width: 20%">
+      <option value="0">United States</option>
+      <option value="1">Cuba</option>
+      <option value="2">Poland</option>
+      <option value="3">Libya</option>
+      <option value="4">Malaysia</option>
+      <option value="5">Congo</option>
+    </select>
+  </section>
 	<section class="table-align-left">
     	<section class="data-table">
   		<!-- Using HDI 2013 Data as Default -->
           <table class="table">
               <tr class="row header-row">
                 <td class="cell blank"></td>
-                <td class="header cell">HDI</td>
-                <td class="header cell">Regional HDI</td>
-                <td class="header cell">HDI Rank</td>
-                <td class="header cell">Avg Annual Change</td>
+                <td class="cell header">HDI</td>
+                <td class="cell header">Regional HDI</td>
+                <td class="cell header">HDI Rank</td>
+                <td class="cell header">Avg Annual Change</td>
               </tr>
               <tr class="row">
                   <td class="cell">United States</td>
@@ -81,10 +84,14 @@
         </section>
       </section>
     </section>
+    <footer class="the-footer">
+      <nav class="bottom-nav">
+      		<a>Home</a>
+      		<a>About us</a>
+      		<a>Citations</a>
+      </nav>
+    </footer>
 
-    <section>
-    	<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    </section>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>

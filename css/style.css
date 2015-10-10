@@ -1,7 +1,14 @@
 
 /*set design style for the headings*/
+body{
+	text-align:center;
+  background-color: #FCFCFF;
+  color: #20130A;
+  margin: 0px;
+}
 .main-view{
-  margin: 15px;
+  margin: 20px;
+  min-height: 825px
 }
 
 h1{
@@ -12,10 +19,13 @@ h2{
 	font: bold 16px Tahoma;
 
 }
-.section-title-with-selector{
+.section-title{
   margin-top: 20px;
   text-align: left;
 }
+.selector-left{
+  text-align: left;
+  }
 /*set design so it's compatible or so it works with all browsers*/
 
 /*set design for the body of the website - remember to implement styling for
@@ -27,6 +37,7 @@ design style for background, border, margin, width, padding, color,
 text-alignment, list style and float for the body of the website*/
 
 .help-text {
+  color: #514A3E;
   text-align: left;
   width: 830px;
 }
@@ -35,6 +46,7 @@ text-alignment, list style and float for the body of the website*/
 }
 .data-table {
     margin:auto;
+    margin-top: 10px;
     width: 800px;
 }
 .table{
@@ -44,7 +56,7 @@ text-alignment, list style and float for the body of the website*/
 	margin: 0 auto 0 auto;
 }
 .row{
-   background-color: #F1F4F8;
+   background-color: #F7F7F7;
    width:100%;
    margin:0px;
    padding:0px;
@@ -54,31 +66,66 @@ text-alignment, list style and float for the body of the website*/
    display:flex;
 }
 .header-row{
-    background-color: #7094B8;
-    border-top: 1px solid #D9DCDF;
+  border-top: 1px solid #D9DCDF;
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eeeeee+0,cccccc+100;Gren+3D */
+background: #eeeeee; /* Old browsers */
+background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+
 }
-.blank-cell{
-    width:20%;
-    min-height: 20px;
-}
+
 .cell {
     width:20%;
     line-height: 30px;
     border-left: 1px solid #D9DCDF;
-    padding-left:10px;
+}
+.pos-green{
+color: #33CC33;
+}
+.neg-red{
+  color: #FF1919;
 }
 .header {
     font-weight: bold;
     border-color: #C1C3C6;
 }
-
+}
+/*design for the footer section of the web page*/
+.footer-note{
+  background-color: #FCFCFF;
+	clear:both;
+	text-align:center;
+  font: bold 14px Tahoma;
+	padding: 20px;
+}
+.bottom-nav{
+  line-height: 30px;
+  color: #20130A;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eeeeee+0,cccccc+100;Gren+3D */
+  background: #eeeeee; /* Old browsers */
+  background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+.bottom-nav a{
+  font-weight: bold;
+	padding: 5px;
+}
 
 
 /*TRADITIONAL BOX MODEL Layout*/
 /*colors will be changed - bright colors just makes it easier to see*/
-body{
-	text-align:center;
-}
+
 #body_wrapper{
 	border: 1px solid black;
 	width: 1000px;
@@ -96,7 +143,7 @@ body{
 	color:white;
 }
 /*styling and arranging navigation tabs so they go across the screen.*/
-#menu_top li{
+#menu_top a{
 	display: inline-block;
 	list-style: none;
 	padding: 5px;
