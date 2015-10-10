@@ -1,4 +1,24 @@
 $(function () {
+    var chartData = [{
+        name: 'United States',
+        data: [0.883, 0.897, 0.905, 0.908, 0.911, 0.912, 0.914]
+    }, {
+        name: 'Cuba',
+        data: [0.742, 0.786, 0.830, 0.824, 0.819, 0.813, 0.815]
+    }, {
+        name: 'Poland',
+        data: [0.784, 0.803, 0.817, 0.826, 0.830, 0.833, 0.834]
+    }, {
+        name: 'Libya',
+        data: [0.745, 0.772, 0.789, 0.799, 0.753, 0.789, 0.784]
+    },{
+        name: 'Malaysia',
+        data: [0.717, 0.747, 0.760, 0.766, 0.768, 0.770, 0.773]
+    },{
+        name: 'Congo',
+        data: [0.501, 0.525, 0.548, 0.565, 0.549, 0.561, 0.564]
+    }];
+
     $('#container').highcharts({
         title: {
             text: 'Annual Average Rates',
@@ -30,24 +50,32 @@ $(function () {
             verticalAlign: 'middle',
             borderWidth: 0
         },
-        series: [{
-            name: 'United States',
-            data: [0.883, 0.897, 0.905, 0.908, 0.911, 0.912, 0.914]
-        }, {
-            name: 'Cuba',
-            data: [0.742, 0.786, 0.830, 0.824, 0.819, 0.813, 0.815]
-        }, {
-            name: 'Poland',
-            data: [0.784, 0.803, 0.817,	0.826, 0.830, 0.833, 0.834]
-        }, {
-            name: 'Libya',
-            data: [0.745, 0.772, 0.789, 0.799, 0.753, 0.789, 0.784]
-        },{
-            name: 'Malaysia',
-            data: [0.717, 0.747, 0.760, 0.766, 0.768, 0.770, 0.773]
-        },{
-            name: 'Congo',
-            data: [0.501, 0.525, 0.548, 0.565, 0.549, 0.561, 0.564]
-        }]
+        series: chartData
     });
+
+    // Set up Select2
+    // https://select2.github.io/examples.html
+    $('#selector').select2({
+        placeholder: "Select an option",
+    });
+    
+    // set event for select
+    var $eventLog = $(".example-log");
+    var $eventSelect = $("#selector");
+
+    $eventSelect.on("select2:select", function (e) { selectData(e); });    
+
+    function selectData (evt) {
+        var id = evt.params.data.id;
+        if (id >= 0) {
+            var $e = $("<li>" + JSON.stringify(chartData[id]) + "</li>");
+            $eventLog.append($e);
+            $e.animate({ opacity: 1 }, 2000, 'linear', function () {
+                $e.animate({ opacity: 0 }, 2000, 'linear', function () {
+                    $e.remove();
+                });
+            });
+        }
+    }
+
 });
