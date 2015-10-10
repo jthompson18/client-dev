@@ -1,1 +1,0 @@
-This is a temporary file that will be removed. All wireframes for the project will go in this folder.
