@@ -1,11 +1,11 @@
 $(function () {
     $('#container').highcharts({
         title: {
-            text: 'Annual Average Rates',
+            text: 'Human Development Index Over Tme',
             x: -20 //center
         },
         subtitle: {
-            text: 'Source: http://hdr.undp.org/en/content/table-2-human-development-index-trends-1980-2013',
+            text: 'Source: hdr.undp.org',
             x: -20
         },
         xAxis: {
@@ -13,7 +13,7 @@ $(function () {
         },
         yAxis: {
             title: {
-                text: ''
+                text: 'Index'
             },
             plotLines: [{
                 value: 0,
