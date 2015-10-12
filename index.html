@@ -16,8 +16,16 @@
     <section id="content">
       <section class="section-title" >
         	<h2>Human Development Index Over Time</h2>
+          <section class="help-text">
+            <p>At least one country must be selected at all times.</p>
+          </section>
+          <section class="selector-left">
+        <label for="selector">Select the countries you would like to compare: </label>
+        <select name="multi-selector" id="multi-selector" style="width:600px">
+        </select>
+      </section>
           <section>
-            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            <div id="lineChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
           </section>
     		<div class="example-log"></div>
       </section>
@@ -27,13 +35,6 @@
       <section class="selector-left">
         <label for="selector">Select a year for a more in depth look: </label>
         <select name="selector" id="selector" style="width:65px">
-          <option value="6">2013</option>
-          <option value="5">2012</option>
-          <option value="4">2011</option>
-          <option value="3">2010</option>
-          <option value="2">2008</option>
-          <option value="1">2005</option>
-          <option value="0">2000</option>
         </select>
       </section>
   	  <section class="table-align-left">
