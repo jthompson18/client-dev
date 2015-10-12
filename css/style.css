@@ -6,6 +6,7 @@ body {
   height:100%;
 }
 #wrapper {
+  font: 14px Tahoma;
   position:absolute;
   min-height: 100%;
   background-color: #FCFCFF;
@@ -24,11 +25,11 @@ body {
   padding-bottom: 50px;
 }
 h1{
-	font: bold 20px Tahoma;
+	font: bold 24px Tahoma;
   text-align: center;
 }
 h2{
-	font: bold 16px Tahoma;
+	font: bold 20px Tahoma;
 }
 .section-title{
   margin-top: 20px;
@@ -126,4 +127,8 @@ td .header {
   text-align: left;
   display: inline-block;
   vertical-align: top;
+}
+
+.select2-results__option[aria-selected]{
+    font: 14px Tahoma;  
 }
