@@ -115,6 +115,16 @@ $(function () {
     */
     $('#lineChart').highcharts({
         title: {
+            text: 'Human Development Index Over Tme',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Source: hdr.undp.org',
+            x: -20
+            text: null,
+        },
+        chart: {
+            backgroundColor: "#FCFCFF"
             text: null,
         },
         chart: {
@@ -125,7 +135,7 @@ $(function () {
         },
         yAxis: {
             title: {
-                text: ''
+                text: 'Index'
             },
             plotLines: [{
                 value: 0,
