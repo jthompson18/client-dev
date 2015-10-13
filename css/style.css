@@ -1,32 +1,45 @@
 
-/*set design style for the headings*/
-.main-view{
-  margin: 15px;
+html,
+body {
+  margin:0;
+  padding:0;
+  height:100%;
 }
-
+#wrapper {
+  font: 14px Tahoma;
+  position:absolute;
+  min-height: 100%;
+  background-color: #FCFCFF;
+  color: #20130A;
+  width: 100%;
+}
+#header {
+  text-align: center;
+}
+#content {
+  margin: 20px;
+  text-align:center;
+}
+/*Styles for main page*/
+.bottom-spacer{
+  padding-bottom: 50px;
+}
 h1{
-	font: bold 20px Tahoma;
+	font: bold 24px Tahoma;
   text-align: center;
 }
 h2{
-	font: bold 16px Tahoma;
-
+	font: bold 20px Tahoma;
 }
-.section-title-with-selector{
+.section-title{
   margin-top: 20px;
   text-align: left;
 }
-/*set design so it's compatible or so it works with all browsers*/
-
-/*set design for the body of the website - remember to implement styling for
-class, id and pseudo class */
-
-/*aligning general text to center of the page - will adjust text to align left
-or right if needed.
-design style for background, border, margin, width, padding, color,
-text-alignment, list style and float for the body of the website*/
-
+.selector-left{
+  text-align: left;
+  }
 .help-text {
+  color: #514A3E;
   text-align: left;
   width: 830px;
 }
@@ -35,16 +48,16 @@ text-alignment, list style and float for the body of the website*/
 }
 .data-table {
     margin:auto;
+    margin-top: 10px;
     width: 800px;
 }
-.table{
-    width:100%;
-    list-style-type: none;
-    padding: 0px 0px 0px 0px;
+table {
+  width:100%;
+  padding: 0px 0px 0px 0px;
 	margin: 0 auto 0 auto;
 }
-.row{
-   background-color: #F1F4F8;
+tr {
+   background-color: #F7F7F7;
    width:100%;
    margin:0px;
    padding:0px;
@@ -53,74 +66,69 @@ text-alignment, list style and float for the body of the website*/
    border-left: none;
    display:flex;
 }
+td {
+  width:20%;
+  line-height: 30px;
+  border-left: 1px solid #D9DCDF;
+}
 .header-row{
-    background-color: #7094B8;
-    border-top: 1px solid #D9DCDF;
-}
-.blank-cell{
-    width:20%;
-    min-height: 20px;
-}
-.cell {
-    width:20%;
-    line-height: 30px;
-    border-left: 1px solid #D9DCDF;
-    padding-left:10px;
-}
-.header {
-    font-weight: bold;
-    border-color: #C1C3C6;
-}
+  border-top: 1px solid #D9DCDF;
 
-
-
-/*TRADITIONAL BOX MODEL Layout*/
-/*colors will be changed - bright colors just makes it easier to see*/
-body{
-	text-align:center;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eeeeee+0,cccccc+100;Gren+3D */
+  background: #eeeeee; /* Old browsers */
+  background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
-#body_wrapper{
-	border: 1px solid black;
-	width: 1000px;
-	margin: 20px auto;
-	text-align:left
+.pos-green{
+  color: #33CC33;
 }
-#header_top{
-	background: yellow;
-	border: 1px solid blue;
-	padding 20px
+.neg-red{
+  color: #FF1919;
 }
-/*this is the design for the top navigation bar*/
-#menu_top{
-	background: blue;
-	color:white;
-}
-/*styling and arranging navigation tabs so they go across the screen.*/
-#menu_top li{
-	display: inline-block;
-	list-style: none;
-	padding: 5px;
-	font: bold 14px Tahoma;
-}
-/*design for the main section*/
-/*design for tables, charts, selectors will be added here*/
-#section_main{
-	float: left;
-	width: 660px;
-	margin: 30px; /*this is 720 px, 280px is left*/
-}
-/*design for a side bar - we probably will not use this*/
-#aside_news{
-	float: left;
-	width: 220px;
-	margin: 20px 0px;
-	padding: 30px;
-	background: #66cccc;
+td .header {
+  font-weight: bold;
+  border-color: #C1C3C6;
 }
 /*design for the footer section of the web page*/
-#footer_note{
-	clear:both;
-	text-align:center;
-	padding: 20px;
-	border-top: solid green;
+#footer {
+  height: 30px;
+  position: absolute;
+  text-align:center;
+  bottom:0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+.bottom-nav{
+  line-height: 30px;
+  color: #20130A;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eeeeee+0,cccccc+100;Gren+3D */
+  background: #eeeeee; /* Old browsers */
+  background: -moz-linear-gradient(top,  #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #eeeeee 0%,#cccccc 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #eeeeee 0%,#cccccc 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+}
+.bottom-nav a{
+  font-weight: bold;
+	padding: 5px;
+}
+/*Styles for about us page*/
+.about-us-column{
+  width: 300px;
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.select2-results__option[aria-selected]{
+    font: 14px Tahoma;
 }

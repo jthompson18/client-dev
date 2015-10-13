@@ -2,77 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Client Side Dev</title>
+  <title>Client Side Dev Main Page</title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=1.0">
 </head>
 <body>
-  <section class="main-view">
-
-    <h1>Test Header</h1>
-    <section class="section-title-with-selector" >
-      <h2>Human Development Index Over Time</h2>
-    </section>
-    <section class="help-text">
-      <p>The Human Development Index (HDI) is a composite index measuring average of the three basic metrics of human development: life expectancy, education rate, and average standard of living. <a target="_blank" href="http://hdr.undp.org/en">More detail</a>   </p>
-
-    </section>
-<section class="table-align-left">
-    	<section class="data-table">
-  		<!-- Using HDI 2013 Data as Default -->
-          <table class="table">
-              <tr class="row header-row">
-                <td class="cell blank"></td>
-                <td class="header cell">HDI</td>
-                <td class="header cell">Regional HDI</td>
-                <td class="header cell">HDI Rank</td>
-                <td class="header cell">Avg Annual Change</td>
-              </tr>
-              <tr class="row">
-                  <td class="cell">United States</td>
-                  <td class="cell">0.914</td>
-                  <td class="cell">0.912</td> <!--calculated as avg of US and Canada for -->
-                  <td class="cell">5</td>
-                  <td class="cell">+0.26%</td>
-              </tr>
-              <tr class="row">
-                  <td class="cell">Cuba</td>
-                  <td class="cell">0.815</td>
-                  <td class="cell">0.740</td>
-                  <td class="cell">44</td>
-                  <td class="cell">+0.73%</td>
-              </tr><tr class="row">
-                  <td class="cell">Poland</td>
-                  <td class="cell">0.834</td>
-                  <td class="cell">0.738</td>
-                  <td class="cell">34</td>
-                  <td class="cell">+0.48%</td>
-              </tr><tr class="row">
-                  <td class="cell">Libya</td>
-                  <td class="cell">0.784</td>
-                  <td class="cell">0.682</td>
-                  <td class="cell">50</td>
-                  <td class="cell">+0.40%</td>
-              </tr><tr class="row">
-                  <td class="cell">Malaysia</td>
-                  <td class="cell">0.773</td>
-                  <td class="cell">0.703</td>
-                  <td class="cell">62</td>
-                  <td class="cell">+0.58%</td>
-              </tr><tr class="row">
-                  <td class="cell">Congo</td>
-                  <td class="cell">0.569</td>
-                  <td class="cell">0.502</td>
-                  <td class="cell">140</td>
-                  <td class="cell">+0.92%</td>
-              </tr>
-          </table>
+<a name="top"></a>
+  <section id="wrapper" class="bottom-spacer">
+    <header id="header">
+      <h1>Welcome to Team Data's Human Development Comparator v 0.5</h1>
+      <h2>This site is a work in progress, pardon our dust</h2>
+    </header>
+    <section id="content">
+      <section class="section-title" >
+        	<h2>Human Development Index Over Time</h2>
+          <section class="help-text">
+            <p>At least one country must be selected at all times</p>
+          </section>
+          <section class="selector-left">
+        <label for="selector">Select the countries you would like to compare: </label>
+        <select name="multi-selector" id="multi-selector" style="width:600px">
+        </select>
+      </section>
+          <section>
+            <div id="lineChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+          </section>
+    		<div class="example-log"></div>
+      </section>
+      <section class="help-text">
+        <p>The Human Development Index (HDI) is a composite index measuring average of the three basic metrics of human development: life expectancy, education rate, and average standard of living. <a target="_blank" href="http://hdr.undp.org/en">More details</a>   </p>
+      </section>
+      <section class="selector-left">
+        <label for="selector">Select a year for a more in depth look: </label>
+        <select name="selector" id="selector" style="width:65px">
+        </select>
+      </section>
+  	  <section class="table-align-left">
+      	<section class="data-table">
+          <div id="dataTable"></div>
         </section>
       </section>
     </section>
+    <footer id="footer">
+      <nav class="bottom-nav">
+          <a href="#top">Home</a>
+          <a href="additionalPages/aboutUsPage.html">About us</a>
+          <a href="additionalPages/citiationPage.html">Citations</a>
+      </nav>
+    </footer>
+  </section>
 
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <script src="js/script.js"></script>
