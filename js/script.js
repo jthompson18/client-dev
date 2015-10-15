@@ -189,10 +189,9 @@ $(function () {
         tableData = data;
     }
     function updateTable(shouldClearTable){
-        if (shouldClearTable){
-            $table = $('#dataTable');
-            clearTable($table);
-        }
+        var $table = $('#dataTable');
+        clearTable($table);
+
         // Creates table dynamically based on tableData 
         var htmlTable = '<table class="table"><tr class="row header-row"><td></td><td class="header">HDI</td><td class="header">Regional HDI</td><td class="header">HDI Rank</td><td class="header">Avg Annual Change</td></tr>';
         for (var i=0; i<numOfDisplayCountries; i++) {
@@ -206,7 +205,7 @@ $(function () {
             htmlTable += "<tr><td>"+ name +"</td><td metric-id="+ref+"HDI"+">"+ dHDI +"</td><td metric-id="+ref+"RegionalHDI"+">"+ regionalHDI +"</td><td>"+ rank +"</td><td>"+ percentChange +"</td></tr>";
         }
         htmlTable += "</table>"
-        $(htmlTable).appendTo('#dataTable');
+        $(htmlTable).appendTo($table);
     }
     function clearTable($table){
         //clears table content
@@ -297,6 +296,6 @@ $(function () {
         updateTableData(dataToDisplay);
         // Update DOM elements
         updateChart();
-        updateTable(true);
+        updateTable();
     }
 });
