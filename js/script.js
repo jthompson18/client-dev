@@ -190,7 +190,6 @@ $(function () {
     }
     function updateTable(shouldClearTable){
         var $table = $('#dataTable');
-        debugger
         if ($table.length > 0){
             clearTable($table);
         }
@@ -241,8 +240,8 @@ $(function () {
             dataIndex = id;
             for (var i=0; i<numOfDisplayCountries; i++){
                 var ref = displayCountryIds[i];
-                var dHDI = tableData[ref].hdi[id];
-                var regionalHDI = tableData[ref].regionalHDI[id];
+                var dHDI = tableData[ref].hdi[id].toFixed(trailingDigitsToBeDisplayed);
+                var regionalHDI = tableData[ref].regionalHDI[id].toFixed(trailingDigitsToBeDisplayed);
                 var $hdiCell = $("td[metric-id='"+ref+"HDI"+"']");
                 var $regionalHDICell = $("td[metric-id='"+ref+"RegionalHDI"+"']");
                 updateCellContent($hdiCell, dHDI);
