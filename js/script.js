@@ -182,7 +182,7 @@ $(function () {
     */
     $(document).ready(function() {
         // Dynamically create table based on data after page load
-        updateTable(tableData, false);
+        updateTable(tableData);
     });
     // Update tableData Global var
     function updateTableData(data){
@@ -190,8 +190,10 @@ $(function () {
     }
     function updateTable(shouldClearTable){
         var $table = $('#dataTable');
-        clearTable($table);
-
+        debugger
+        if ($table.length > 0){
+            clearTable($table);
+        }
         // Creates table dynamically based on tableData 
         var htmlTable = '<table class="table"><tr class="row header-row"><td></td><td class="header">HDI</td><td class="header">Regional HDI</td><td class="header">HDI Rank</td><td class="header">Avg Annual Change</td></tr>';
         for (var i=0; i<numOfDisplayCountries; i++) {
