@@ -5,6 +5,9 @@ global.jquery = $
 var select2 = require('select2');
 var highcharts = require('highcharts-browserify');
 jquery.mousewheel = require('jquery.mousewheel');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var _ = require('lodash');
 
 
 // $function({
@@ -156,77 +159,100 @@ jquery.mousewheel = require('jquery.mousewheel');
     //     series: chartDisplayData
     // });
     // Updates global chart data structure
-    function updateChartData(data){
-        updatedData = []
-        for(var i=0; i<numOfDisplayCountries; i++){
-            var ref = displayCountryIds[i];
-            updatedData.push(
-                {name: data[ref].name, data: data[ref].hdi, color: data[ref].color}
-            );
-        }
-        chartDisplayData = updatedData;
-    }
-    // Updates chart and redraws
-    function updateChart() {
-        var chart = $('#lineChart').highcharts();
-        clearChart(chart);
-        for(var i=0; i<numOfDisplayCountries; i++){
-            var shouldRedraw = false;
-            if(i === numOfDisplayCountries-1){
-                shouldRedraw = true
-            }
-            var ref = displayCountryIds[i];
-            chart.addSeries(
-                chartDisplayData[i],
-                shouldRedraw);
-        }
-    }
-    // Removes old chart data
-    function clearChart(chart){
-        while(chart.series.length > 0){
-            chart.series[0].remove(true);
-        }
-    }
+    // function updateChartData(data){
+    //     updatedData = []
+    //     for(var i=0; i<numOfDisplayCountries; i++){
+    //         var ref = displayCountryIds[i];
+    //         updatedData.push(
+    //             {name: data[ref].name, data: data[ref].hdi, color: data[ref].color}
+    //         );
+    //     }
+    //     chartDisplayData = updatedData;
+    // }
+    // // Updates chart and redraws
+    // function updateChart() {
+    //     var chart = $('#lineChart').highcharts();
+    //     clearChart(chart);
+    //     for(var i=0; i<numOfDisplayCountries; i++){
+    //         var shouldRedraw = false;
+    //         if(i === numOfDisplayCountries-1){
+    //             shouldRedraw = true
+    //         }
+    //         var ref = displayCountryIds[i];
+    //         chart.addSeries(
+    //             chartDisplayData[i],
+    //             shouldRedraw);
+    //     }
+    // }
+    // // Removes old chart data
+    // function clearChart(chart){
+    //     while(chart.series.length > 0){
+    //         chart.series[0].remove(true);
+    //     }
+    // }
 
     /*
         Table and relevant methods
     */
-    $(document).ready(function() {
-        // Dynamically create table based on data after page load
-        updateTable(tableData);
+    var TableCell = React.createClass({
+        render: function() {
+            var data = this.props.cellData;
+            var dataIndex = this.props.dataIndex;
+            if (_.isArray(data)){
+                var displayData = data[dataIndex];
+            }
+            else {
+                var displayData = data
+            }
+            return (
+                <td>{displayData}</td>
+            );
+        }
     });
-    // Update tableData Global var
-    function updateTableData(data){
-        tableData = data;
-    }
-    function updateTable(shouldClearTable){
-        var $table = $('#dataTable');
-        if ($table.length > 0){
-            clearTable($table);
+    var TableRow = React.createClass({
+        render: function () {
+            var data = this.props.rowData;
+            var dataKeys = Object.keys(data);
+            var numOfCells = dataKeys.length;
+            var cells = [];
+            for (var i=0; i<numOfCells; i++){
+                var ref = dataKeys[i];
+                var cellID = data['name']+"-"+data[ref]
+                cells.push(<TableCell key={cellID} dataIndex={dataIndex} cellData={data[ref]} />);
+            }
+            return(
+                <tr>{cells}</tr>
+            );
         }
-        // Creates table dynamically based on tableData 
-        var htmlTable = '<table class="table"><tr class="row header-row"><td></td><td class="header">HDI</td><td class="header">Regional HDI</td><td class="header">HDI Rank</td><td class="header">Avg Annual Change</td></tr>';
-        for (var i=0; i<numOfDisplayCountries; i++) {
-            var ref = displayCountryIds[i];
-            var numOfCells = Object.keys(tableData[ref]).length
-            var name = tableData[ref].name;
-            var dHDI = tableData[ref].hdi[dataIndex].toFixed(trailingDigitsToBeDisplayed);
-            var regionalHDI = tableData[ref].regionalHDI[dataIndex].toFixed(trailingDigitsToBeDisplayed);
-            var rank = tableData[ref].hdiRank;
-            var percentChange = tableData[ref].annualPercentChange;
-            htmlTable += "<tr><td>"+ name +"</td><td metric-id="+ref+"HDI"+">"+ dHDI +"</td><td metric-id="+ref+"RegionalHDI"+">"+ regionalHDI +"</td><td>"+ rank +"</td><td>"+ percentChange +"</td></tr>";
+    });
+    var TableHeaderRow = React.createClass({
+        render: function() {
+            return (
+                <tr className="row header-row"><td></td><td className="header">HDI</td><td className="header">Regional HDI</td><td className="header">HDI Rank</td><td className="header">Avg Annual Change</td></tr>
+            );
         }
-        htmlTable += "</table>"
-        $(htmlTable).appendTo($table);
-    }
-    function clearTable($table){
-        //clears table content
-        $table.html("");
-    }
-    function updateCellContent($cell, newContent) {
-        $cell.html("");
-        $cell.html(newContent);
-    }
+    });
+    var HDITable = React.createClass({
+        render: function () {
+            var data = this.props.tableData;
+            var numOfRows = this.props.numOfRows;
+            var countryIds = this.props.countryIds;
+            var rows = [];
+            rows.push(<TableHeaderRow key={"Header"} />);
+            for (var i=0; i<numOfRows; i++) {
+                var rowID=countryIds[i];
+                rows.push(<TableRow key={rowID} rowData={data[rowID]} dataIndex={dataIndex}/>);
+            }
+            return(
+                <table className="table"><tbody>{rows}</tbody></table>
+            );
+        }
+    });
+
+    ReactDOM.render(
+        <HDITable tableData={tableData} numOfRows={numOfDisplayCountries} countryIds={displayCountryIds} dataIndex={dataIndex}/>,
+        document.getElementById('dataTable')
+        );
 
     /*
         Selectors
