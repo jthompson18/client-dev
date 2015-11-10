@@ -192,6 +192,157 @@ var _ = require('lodash');
     // }
 
     /*
+        Content class
+    */
+
+    var WrapperComponent = React.createClass({
+        render: function () {
+            return(
+                <section>
+                    <PageHeader />
+                    <PrimaryContent 
+                        singleSelectOption={this.props.singleSelectOptions} 
+                        multiSelectOptions={this.props.multiSelectOptions} 
+                        tableData={this.props.tableData} 
+                        numOfRows={this.props.numOfRows} 
+                        countryIds={this.props.countryIds} 
+                        dataIndex={this.props.dataIndex} />
+                    <Pagefooter />
+                </section>
+            );
+        }
+
+    });
+
+    var PageHeader = React.createClass({
+        render: function () {
+            var headerLine1 = "Welcome to Team Data\'s Human Development Comparator v 0.5";
+            var headerLine2 = "This site is a work in progress, pardon our dust";
+            return (
+                <header id="header">
+                    <h1>{headerLine1}</h1>
+                    <SubHeader subHeader={headerLine2} />
+                </header>
+            );
+        }
+
+    });
+
+    var Pagefooter = React.createClass({
+        render: function () {
+            return (
+                <footer id="footer">
+                {/* TODO update to be react class versus static content*/}
+                    <nav className="bottom-nav">
+                      <a href="#top">Home</a>
+                      <a href="additionalPages/aboutUsPage.html">About us</a>
+                      <a href="additionalPages/citiationPage.html">Citations</a>
+                    </nav>
+                </footer>
+            );
+        }
+    });
+
+    var PrimaryContent = React.createClass({
+        render: function () {
+            var hdiSubHeader = "Human Development Index Over Time";
+            var hdiHelpText1 = "At least one country must be selected at all times";
+            var hdiHelpText2 = "The Human Development Index (HDI) is a composite index measuring average of the three basic metrics of human development: life expectancy, education rate, and average standard of living.";
+            var hdiInfoLink = "http://hdr.undp.org/en";
+            return (
+                <section id="content">
+                    <HDISectionHeading 
+                        subHeader={hdiSubHeader} 
+                        helpText={hdiHelpText1} 
+                        multiSelectOptions={this.props.multiSelectOptions} />
+                    {
+                        /* TODO
+                        <lineChart chartData={this.props.chartData} />
+                        */
+                    }
+                    <HelpText 
+                        helpText={hdiHelpText2} 
+                        externalLink={hdiInfoLink} />
+                    {
+                        /* TODO
+                        <SingleSelect singleSelectOptions={this.props.singleSelectOptions} />
+                        */
+                    }
+                    <HDITable 
+                        tableData={this.props.tableData} 
+                        numOfRows={this.props.numOfRows} 
+                        countryIds={this.props.countryIds} 
+                        dataIndex={this.props.dataIndex} />
+                </section>
+            );
+        }
+    });
+
+    var HDISectionHeading = React.createClass({
+        render: function () {
+            return (
+                <section className="section-title">
+                    <subHeader subHeader={this.props.subHeader} />
+                    <helpText helpText={this.props.helpText} />
+                    {/* TODO*/}
+                    <section className="selector-left">
+                    {/*<multiSelector multiSelectOptions={this.props.multiSelectOptions} />*/}
+                    </section>
+                </section>
+                );
+        }
+
+    });
+
+    var SubHeader = React.createClass({
+        render: function () {
+            return (
+                <h2>{this.props.subHeader}</h2>
+            );
+        }
+
+    });
+
+    var HelpText = React.createClass({
+        render: function() {
+            var helpText = this.props.helpText;
+            if (this.props.externalLink) {
+                return(
+                    <section className="help-text">
+                        <DocumentText text={helpText} />
+                        <HelpTextLink href={this.props.externalLink} />
+                    </section>
+                );
+            }
+            else{
+                return(
+                    <section className="help-text">
+                        <DocumentText text={helpText} />
+                    </section>
+                );
+            }
+        }
+    });
+
+    var DocumentText = React.createClass({
+        render: function() {
+            return (
+                <p>
+                    {this.props.text}
+                </p>
+            );
+        }
+    });
+
+    var HelpTextLink = React.createClass({
+        render: function() {
+            return (
+                <a target={'_blank'} href={this.props.href}>More Detail</a>
+                );
+        }
+    });
+
+    /*
         Table and relevant methods
     */
     var TableCell = React.createClass({
@@ -202,7 +353,7 @@ var _ = require('lodash');
                 var displayData = data[dataIndex];
             }
             else {
-                var displayData = data
+                var displayData = data;
             }
             return (
                 <td>{displayData}</td>
@@ -244,14 +395,24 @@ var _ = require('lodash');
                 rows.push(<TableRow key={rowID} rowData={data[rowID]} dataIndex={dataIndex}/>);
             }
             return(
-                <table className="table"><tbody>{rows}</tbody></table>
+                <section className="table-align-left">
+                    <section className="data-table">
+                        <table className="table"><tbody>{rows}</tbody></table>
+                    </section>
+                </section>
             );
         }
     });
 
     ReactDOM.render(
-        <HDITable tableData={tableData} numOfRows={numOfDisplayCountries} countryIds={displayCountryIds} dataIndex={dataIndex}/>,
-        document.getElementById('dataTable')
+        <WrapperComponent 
+            singleSelectOption={singleSelectOptions} 
+            multiSelectOptions={multiSelectOptions}
+            tableData={tableData} 
+            numOfRows={numOfDisplayCountries} 
+            countryIds={displayCountryIds} 
+            dataIndex={dataIndex}/>,
+        document.getElementById('wrapper')
         );
 
     /*
@@ -259,81 +420,81 @@ var _ = require('lodash');
     */
     // Set up Select2
     // https://select2.github.io/examples.html
-    $('#selector').select2({
-        minimumResultsForSearch: 10,
-        data: singleSelectOptions
-    });
-    // Eet event for #selector
-    var $eventLog = $(".example-log");
-    var $eventSelect = $("#selector");
-    // Declare what method to call when event is detected
-    $eventSelect.on("select2:select", function (e) { selectData(e); });
-    // When item selected update the data displayed in the table
-    // Done on cell by cell basis
-    function selectData (evt) {
-        var id = evt.params.data.id;
-        if (id >= 0) {
-            // Update global for selected data persistance
-            dataIndex = id;
-            for (var i=0; i<numOfDisplayCountries; i++){
-                var ref = displayCountryIds[i];
-                var dHDI = tableData[ref].hdi[id].toFixed(trailingDigitsToBeDisplayed);
-                var regionalHDI = tableData[ref].regionalHDI[id].toFixed(trailingDigitsToBeDisplayed);
-                var $hdiCell = $("td[metric-id='"+ref+"HDI"+"']");
-                var $regionalHDICell = $("td[metric-id='"+ref+"RegionalHDI"+"']");
-                updateCellContent($hdiCell, dHDI);
-                updateCellContent($regionalHDICell, regionalHDI);
-            }
-        }
-    }
+    // $('#selector').select2({
+    //     minimumResultsForSearch: 10,
+    //     data: singleSelectOptions
+    // });
+    // // Eet event for #selector
+    // var $eventLog = $(".example-log");
+    // var $eventSelect = $("#selector");
+    // // Declare what method to call when event is detected
+    // $eventSelect.on("select2:select", function (e) { selectData(e); });
+    // // When item selected update the data displayed in the table
+    // // Done on cell by cell basis
+    // function selectData (evt) {
+    //     var id = evt.params.data.id;
+    //     if (id >= 0) {
+    //         // Update global for selected data persistance
+    //         dataIndex = id;
+    //         for (var i=0; i<numOfDisplayCountries; i++){
+    //             var ref = displayCountryIds[i];
+    //             var dHDI = tableData[ref].hdi[id].toFixed(trailingDigitsToBeDisplayed);
+    //             var regionalHDI = tableData[ref].regionalHDI[id].toFixed(trailingDigitsToBeDisplayed);
+    //             var $hdiCell = $("td[metric-id='"+ref+"HDI"+"']");
+    //             var $regionalHDICell = $("td[metric-id='"+ref+"RegionalHDI"+"']");
+    //             updateCellContent($hdiCell, dHDI);
+    //             updateCellContent($regionalHDICell, regionalHDI);
+    //         }
+    //     }
+    // }
 
-    // Multiple selector
-    $('#multi-selector').select2({
-        placeholder: "Select Countries to Compare",
-        minimumResultsForSearch: 10,
-        multiple: true,
-        data: multiSelectOptions
+    // // Multiple selector
+    // $('#multi-selector').select2({
+    //     placeholder: "Select Countries to Compare",
+    //     minimumResultsForSearch: 10,
+    //     multiple: true,
+    //     data: multiSelectOptions
 
-    });
-    // Set initial selection
-    $('#multi-selector').select2().select2('val', multiSelectDefault);
-    // When selection changes determine if valid selection remains
-    // If not go back to previous selection
-    $('#multi-selector').change(function () {
-        var selected = $('#multi-selector').select2('data')
-        if(isValidSelection(selected)){
-            lastSelected = selected[0].id;
-            updateContent(selected);
-        }
-        else {
-           $('#multi-selector').select2().select2('val', lastSelected); 
-        }
-    });
-    // Checks if at least one item is selected
-    function isValidSelection(selected){
-        var len = selected.length;
-        if(len > 0){
-            return true
-        }
-        else {
-            return false;
-        }
-    }
-    // Updates page content based on selected items
-    function updateContent (selected) {
-        var dataToDisplay = {};
-        var selectedLength = selected.length;
-        for(var i=0; i<selectedLength; i++){
-            dataToDisplay[selected[i].id] = rawData[selected[i].id]
-        }
-        // Update globals
-        displayCountryIds = Object.keys(dataToDisplay);
-        numOfDisplayCountries = displayCountryIds.length;
-        // Update data structures
-        updateChartData(dataToDisplay);
-        updateTableData(dataToDisplay);
-        // Update DOM elements
-        updateChart();
-        updateTable();
-    }
+    // });
+    // // Set initial selection
+    // $('#multi-selector').select2().select2('val', multiSelectDefault);
+    // // When selection changes determine if valid selection remains
+    // // If not go back to previous selection
+    // $('#multi-selector').change(function () {
+    //     var selected = $('#multi-selector').select2('data')
+    //     if(isValidSelection(selected)){
+    //         lastSelected = selected[0].id;
+    //         updateContent(selected);
+    //     }
+    //     else {
+    //        $('#multi-selector').select2().select2('val', lastSelected); 
+    //     }
+    // });
+    // // Checks if at least one item is selected
+    // function isValidSelection(selected){
+    //     var len = selected.length;
+    //     if(len > 0){
+    //         return true
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
+    // // Updates page content based on selected items
+    // function updateContent (selected) {
+    //     var dataToDisplay = {};
+    //     var selectedLength = selected.length;
+    //     for(var i=0; i<selectedLength; i++){
+    //         dataToDisplay[selected[i].id] = rawData[selected[i].id]
+    //     }
+    //     // Update globals
+    //     displayCountryIds = Object.keys(dataToDisplay);
+    //     numOfDisplayCountries = displayCountryIds.length;
+    //     // Update data structures
+    //     updateChartData(dataToDisplay);
+    //     updateTableData(dataToDisplay);
+    //     // Update DOM elements
+    //     updateChart();
+    //     updateTable();
+    // }
 // });
