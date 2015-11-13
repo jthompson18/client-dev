@@ -202,7 +202,7 @@ var _ = require('lodash');
                 <section>
                     <PageHeader />
                     <PrimaryContent
-                        singleSelectOption={this.props.singleSelectOptions}
+                        singleSelectOptions={this.props.singleSelectOptions}
                         multiSelectOptions={this.props.multiSelectOptions}
                         tableData={this.props.tableData}
                         numOfRows={this.props.numOfRows}
@@ -264,11 +264,12 @@ var _ = require('lodash');
                     <HelpText
                         helpText={hdiHelpText2}
                         externalLink={hdiInfoLink} />
-                    {
-                        /* TODO
-                        <SingleSelect singleSelectOptions={this.props.singleSelectOptions} />
-                        */
-                    }
+
+                    <section className="selector-left">
+                        <SingleSelect
+                            singleSelectOptions={this.props.singleSelectOptions} />
+                    </section>
+
                     <HDITable
                         tableData={this.props.tableData}
                         numOfRows={this.props.numOfRows}
@@ -294,9 +295,44 @@ var _ = require('lodash');
 
     });
 
-    function logChange() {
-    	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
-    }
+    var SingleSelect = React.createClass({
+        displayName: 'SingleSelect',
+    	propTypes: {
+    		label: React.PropTypes.string,
+    	},
+    	getDefaultProps () {
+    		return {
+                label: 'Select a year for a more in depth look:',
+    		};
+    	},
+        getInitialState () {
+    		return {
+    			disabled: false,
+                options: this.props.singleSelectOptions,
+                value: this.props.singleSelectOptions[0] // year 2013
+    		};
+    	},
+        updateValue (newValue) {
+    		console.log('State changed to ' + newValue);
+    		this.setState({
+    			value: newValue
+    		});
+    	},
+        render () {
+            return (
+                <div className="section">
+    				<h3 className="section-heading">{this.props.label}</h3>
+                    <ReactSelect
+                        simpleValue
+                        disabled={this.state.disabled}
+                        name="selected-year"
+                        options={this.state.options}
+                        value={this.state.value}
+                        onChange={this.updateValue} />
+                </div>
+            );
+        }
+    });
 
     var MultiSelector = React.createClass({
         displayName: 'MultiSelector',
@@ -313,7 +349,7 @@ var _ = require('lodash');
     	},
 
         handleSelectChange (value, values) {
-    		logChange('New value:', value, 'Values:', values);
+    		console.log('New value:', value, 'Values:', values);
             if (value == "") {
                 // this ensures the field will always have one selected item
                 value = this.props.multiSelectOptions[0];
@@ -452,7 +488,7 @@ var _ = require('lodash');
 
     ReactDOM.render(
         <WrapperComponent
-            singleSelectOption={singleSelectOptions}
+            singleSelectOptions={singleSelectOptions}
             multiSelectOptions={multiSelectOptions}
             tableData={tableData}
             numOfRows={numOfDisplayCountries}
