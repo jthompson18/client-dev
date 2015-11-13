@@ -2,11 +2,12 @@ var $ = require('jquery');
 global.jQuery = $
 global.jquery = $
 // we should probably move to react-select
-var select2 = require('select2');
+// var select2 = require('select2');
 var highcharts = require('highcharts-browserify');
 jquery.mousewheel = require('jquery.mousewheel');
 var React = require('react');
 var ReactDOM = require('react-dom');
+var ReactSelect = require('react-select');
 var _ = require('lodash');
 
 
@@ -101,21 +102,21 @@ var _ = require('lodash');
 
     // Selector options
     var singleSelectOptions = [
-        {id:6 , text: "2013"},
-        {id:5 , text: "2012"},
-        {id:4 , text: "2011"},
-        {id:3 , text: "2010"},
-        {id:2 , text: "2008"},
-        {id:1 , text: "2005"},
-        {id:0 , text: "2000"}
+        {value:6 , label: "2013"},
+        {value:5 , label: "2012"},
+        {value:4 , label: "2011"},
+        {value:3 , label: "2010"},
+        {value:2 , label: "2008"},
+        {value:1 , label: "2005"},
+        {value:0 , label: "2000"}
     ];
     var multiSelectOptions =  [
-        {id:"unitedStates", text:"United States"},
-        {id:"cuba", text:"Cuba"},
-        {id:"poland", text:"Poland"},
-        {id:"libya", text:"Libya"},
-        {id:"malaysia", text:"Malaysia"},
-        {id:"congo", text:"Congo"}
+        {value:"unitedStates", label:"United States"},
+        {value:"cuba", label:"Cuba"},
+        {value:"poland", label:"Poland"},
+        {value:"libya", label:"Libya"},
+        {value:"malaysia", label:"Malaysia"},
+        {value:"congo", label:"Congo"}
     ];
     // Initial selection for multi select
     var multiSelectDefault = "unitedStates";
@@ -125,7 +126,7 @@ var _ = require('lodash');
     /*
         Charting Components, currently just the one, and relevant methods
     */
- 
+
     // $('#lineChart').highcharts({
     //     title: {
     //         text: null,
@@ -200,12 +201,12 @@ var _ = require('lodash');
             return(
                 <section>
                     <PageHeader />
-                    <PrimaryContent 
-                        singleSelectOption={this.props.singleSelectOptions} 
-                        multiSelectOptions={this.props.multiSelectOptions} 
-                        tableData={this.props.tableData} 
-                        numOfRows={this.props.numOfRows} 
-                        countryIds={this.props.countryIds} 
+                    <PrimaryContent
+                        singleSelectOption={this.props.singleSelectOptions}
+                        multiSelectOptions={this.props.multiSelectOptions}
+                        tableData={this.props.tableData}
+                        numOfRows={this.props.numOfRows}
+                        countryIds={this.props.countryIds}
                         dataIndex={this.props.dataIndex} />
                     <Pagefooter />
                 </section>
@@ -251,27 +252,27 @@ var _ = require('lodash');
             var hdiInfoLink = "http://hdr.undp.org/en";
             return (
                 <section id="content">
-                    <HDISectionHeading 
-                        subHeader={hdiSubHeader} 
-                        helpText={hdiHelpText1} 
+                    <HDISectionHeading
+                        subHeader={hdiSubHeader}
+                        helpText={hdiHelpText1}
                         multiSelectOptions={this.props.multiSelectOptions} />
                     {
                         /* TODO
                         <lineChart chartData={this.props.chartData} />
                         */
                     }
-                    <HelpText 
-                        helpText={hdiHelpText2} 
+                    <HelpText
+                        helpText={hdiHelpText2}
                         externalLink={hdiInfoLink} />
                     {
                         /* TODO
                         <SingleSelect singleSelectOptions={this.props.singleSelectOptions} />
                         */
                     }
-                    <HDITable 
-                        tableData={this.props.tableData} 
-                        numOfRows={this.props.numOfRows} 
-                        countryIds={this.props.countryIds} 
+                    <HDITable
+                        tableData={this.props.tableData}
+                        numOfRows={this.props.numOfRows}
+                        countryIds={this.props.countryIds}
                         dataIndex={this.props.dataIndex} />
                 </section>
             );
@@ -282,16 +283,61 @@ var _ = require('lodash');
         render: function () {
             return (
                 <section className="section-title">
-                    <subHeader subHeader={this.props.subHeader} />
-                    <helpText helpText={this.props.helpText} />
-                    {/* TODO*/}
+                    <SubHeader subHeader={this.props.subHeader} />
+                    <HelpText helpText={this.props.helpText} />
                     <section className="selector-left">
-                    {/*<multiSelector multiSelectOptions={this.props.multiSelectOptions} />*/}
+                        <MultiSelector multiSelectOptions={this.props.multiSelectOptions} label="Select the countries you would like to compare:" />
                     </section>
                 </section>
-                );
+            );
         }
 
+    });
+
+    function logChange() {
+    	console.log.apply(console, [].concat(['Select value changed:'], Array.prototype.slice.apply(arguments)));
+    }
+
+    var MultiSelector = React.createClass({
+        displayName: 'MultiSelector',
+        propTypes: {
+            label: React.PropTypes.string,
+    	},
+
+        getInitialState () {
+    		return {
+                disabled: false,
+                options: this.props.multiSelectOptions,
+    			value: [this.props.multiSelectOptions[0]], // United States is default
+    		};
+    	},
+
+        handleSelectChange (value, values) {
+    		logChange('New value:', value, 'Values:', values);
+            if (value == "") {
+                // this ensures the field will always have one selected item
+                value = this.props.multiSelectOptions[0];
+            }
+    		this.setState({
+                value: value
+            });
+    	},
+
+        render () {
+    		return (
+                <div className="section">
+                    <h3 className="section-heading">{this.props.label}</h3>
+                    <ReactSelect
+                        multi
+                        simpleValue
+                        disabled={this.state.disabled}
+                        value={this.state.value}
+                        placeholder="Select country(s)"
+                        options={this.state.options}
+                        onChange={this.handleSelectChange} />
+                </div>
+    		);
+    	}
     });
 
     var SubHeader = React.createClass({
@@ -405,12 +451,12 @@ var _ = require('lodash');
     });
 
     ReactDOM.render(
-        <WrapperComponent 
-            singleSelectOption={singleSelectOptions} 
+        <WrapperComponent
+            singleSelectOption={singleSelectOptions}
             multiSelectOptions={multiSelectOptions}
-            tableData={tableData} 
-            numOfRows={numOfDisplayCountries} 
-            countryIds={displayCountryIds} 
+            tableData={tableData}
+            numOfRows={numOfDisplayCountries}
+            countryIds={displayCountryIds}
             dataIndex={dataIndex}/>,
         document.getElementById('wrapper')
         );
@@ -467,7 +513,7 @@ var _ = require('lodash');
     //         updateContent(selected);
     //     }
     //     else {
-    //        $('#multi-selector').select2().select2('val', lastSelected); 
+    //        $('#multi-selector').select2().select2('val', lastSelected);
     //     }
     // });
     // // Checks if at least one item is selected
