@@ -38,7 +38,10 @@ h2{
 }
 .selector-left{
   text-align: left;
-  }
+}
+.selector-left > div {
+    width: 40%;
+}
 .help-text {
   color: #514A3E;
   text-align: left;
