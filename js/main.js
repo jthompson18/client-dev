@@ -260,6 +260,25 @@ var _ = require('lodash');
                         /* TODO
                         <lineChart chartData={this.props.chartData} />
                         */
+                    /*
+                    <Chart
+                      title={title}
+                      width={width}
+                      height={height}
+                      margins= {margins}
+                      >
+                      <LineChart
+                        margins= {margins}
+                        title={title}
+                        data={chartData}
+                        width={width}
+                        height={height}
+                        chartSeries={chartSeries}
+                        x={x}
+                        xScale={xScale}
+                      />
+                    </Chart>
+                    */
                     }
                     <HelpText
                         helpText={hdiHelpText2}
