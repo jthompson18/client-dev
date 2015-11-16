@@ -126,7 +126,8 @@ var _ = require('lodash');
         {value:"congo", label:"Congo"}
     ];
     // Initial selection for multi select
-    var multiSelectDefault = "unitedStates";
+    //var multiSelectDefault = "unitedStates";
+    var multiSelectDefault = multiSelectOptions[0]; // United States
     //used to track last selected option
     var lastSelected = multiSelectDefault;
     var selectedCountries = [
@@ -271,7 +272,8 @@ var _ = require('lodash');
                 numOfRows: this.props.numOfRows,
                 countryIds: this.props.countryIds,
                 dataIndex: this.props.dataIndex,
-                selectedCountries: []
+                selectedCountries: this.props.selectedCountries,
+                lastSelected: this.props.lastSelected
             };
         },
         render: function () {
