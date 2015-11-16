@@ -94,6 +94,13 @@ var _ = require('lodash');
             hdiRank: "5",
             annualPercentChange: "+0.26%"
         },
+        cuba: {
+            name: "Cuba",
+            hdi: [0.742, 0.786, 0.830, 0.824, 0.819, 0.813, 0.815],
+            regionalHDI:[0.683, 0.705, 0.726, 0.734, 0.737, 0.739, 0.740],
+            hdiRank: "44",
+            annualPercentChange: "+0.73%"
+        }
     };
 
     // Used throughout js to loop through displayData objects
@@ -121,7 +128,10 @@ var _ = require('lodash');
     // Initial selection for multi select
     var multiSelectDefault = "unitedStates";
     //used to track last selected option
-    var lastSelected = multiSelectDefault
+    var lastSelected = multiSelectDefault;
+    var selectedCountries = [
+        multiSelectOptions[0]
+    ];
 
     /*
         Charting Components, currently just the one, and relevant methods
@@ -207,7 +217,10 @@ var _ = require('lodash');
                         tableData={this.props.tableData}
                         numOfRows={this.props.numOfRows}
                         countryIds={this.props.countryIds}
-                        dataIndex={this.props.dataIndex} />
+                        dataIndex={this.props.dataIndex}
+                        lastSelected={this.props.lastSelected}
+                        multiSelectDefault={this.props.multiSelectDefault}
+                        selectedCountries={this.props.selectedCountries} />
                     <Pagefooter />
                 </section>
             );
@@ -245,6 +258,22 @@ var _ = require('lodash');
     });
 
     var PrimaryContent = React.createClass({
+        handleChangeYear: function (data) {
+            this.setState({dataIndex: data.dataIndex});
+        },
+        handleMultiSelectChange: function (data) { // data contains the list of selected countries
+            this.setState({selectedCountries: data.selectedCountries});
+            this.setState({lastSelected: data.lastSelected});
+        },
+        getInitialState: function () {
+            return {
+                tableData: this.props.tableData,
+                numOfRows: this.props.numOfRows,
+                countryIds: this.props.countryIds,
+                dataIndex: this.props.dataIndex,
+                selectedCountries: []
+            };
+        },
         render: function () {
             var hdiSubHeader = "Human Development Index Over Time";
             var hdiHelpText1 = "At least one country must be selected at all times";
@@ -255,6 +284,7 @@ var _ = require('lodash');
                     <HDISectionHeading
                         subHeader={hdiSubHeader}
                         helpText={hdiHelpText1}
+                        onMultiSelectChange={this.handleMultiSelectChange}
                         multiSelectOptions={this.props.multiSelectOptions} />
                     {
                         /* TODO
@@ -267,27 +297,36 @@ var _ = require('lodash');
 
                     <section className="selector-left">
                         <SingleSelect
-                            singleSelectOptions={this.props.singleSelectOptions} />
+                            singleSelectOptions={this.props.singleSelectOptions}
+                            onChangeYear={this.handleChangeYear} />
                     </section>
 
                     <HDITable
-                        tableData={this.props.tableData}
-                        numOfRows={this.props.numOfRows}
-                        countryIds={this.props.countryIds}
-                        dataIndex={this.props.dataIndex} />
+                        tableData={this.state.tableData}
+                        numOfRows={this.state.numOfRows}
+                        countryIds={this.state.countryIds}
+                        dataIndex={this.state.dataIndex}
+                        lastSelected={this.state.lastSelected}
+                        selectedCountries={this.state.selectedCountries} />
                 </section>
             );
         }
     });
 
     var HDISectionHeading = React.createClass({
+        handleMultiSelectChange: function (data) {
+            this.props.onMultiSelectChange(data);
+        },
         render: function () {
             return (
                 <section className="section-title">
                     <SubHeader subHeader={this.props.subHeader} />
                     <HelpText helpText={this.props.helpText} />
                     <section className="selector-left">
-                        <MultiSelector multiSelectOptions={this.props.multiSelectOptions} label="Select the countries you would like to compare:" />
+                        <MultiSelector
+                            multiSelectOptions={this.props.multiSelectOptions}
+                            onMultiSelectChange={this.handleMultiSelectChange}
+                            label="Select the countries you would like to compare:" />
                     </section>
                 </section>
             );
@@ -317,6 +356,7 @@ var _ = require('lodash');
     		this.setState({
     			value: newValue
     		});
+            this.props.onChangeYear({dataIndex: newValue});
     	},
         render () {
             return (
@@ -348,8 +388,8 @@ var _ = require('lodash');
     		};
     	},
 
-        handleSelectChange (value, values) {
-    		console.log('New value:', value, 'Values:', values);
+        handleMultiSelectChange (value, values) {
+    		// console.log('New value:', value, 'Values:', values);
             if (value == "") {
                 // this ensures the field will always have one selected item
                 value = this.props.multiSelectOptions[0];
@@ -357,6 +397,15 @@ var _ = require('lodash');
     		this.setState({
                 value: value
             });
+
+            var data = {
+                selectedCountries: values,
+                lastSelected: null
+            };
+            if (values.length > 0) {
+                data.lastSelected = values[values.length - 1];
+            }
+            this.props.onMultiSelectChange(data);
     	},
 
         render () {
@@ -370,7 +419,7 @@ var _ = require('lodash');
                         value={this.state.value}
                         placeholder="Select country(s)"
                         options={this.state.options}
-                        onChange={this.handleSelectChange} />
+                        onChange={this.handleMultiSelectChange} />
                 </div>
     		);
     	}
@@ -450,8 +499,8 @@ var _ = require('lodash');
             var cells = [];
             for (var i=0; i<numOfCells; i++){
                 var ref = dataKeys[i];
-                var cellID = data['name']+"-"+data[ref]
-                cells.push(<TableCell key={cellID} dataIndex={dataIndex} cellData={data[ref]} />);
+                var cellID = data['name']+"-"+data[ref];
+                cells.push(<TableCell key={cellID} dataIndex={this.props.dataIndex} cellData={data[ref]} />);
             }
             return(
                 <tr>{cells}</tr>
@@ -470,12 +519,15 @@ var _ = require('lodash');
             var data = this.props.tableData;
             var numOfRows = this.props.numOfRows;
             var countryIds = this.props.countryIds;
+            var dataIndex = this.props.dataIndex;
             var rows = [];
+
             rows.push(<TableHeaderRow key={"Header"} />);
             for (var i=0; i<numOfRows; i++) {
                 var rowID=countryIds[i];
-                rows.push(<TableRow key={rowID} rowData={data[rowID]} dataIndex={dataIndex}/>);
+                rows.push(<TableRow key={rowID} rowData={data[rowID]} dataIndex={dataIndex} />);
             }
+
             return(
                 <section className="table-align-left">
                     <section className="data-table">
@@ -493,9 +545,12 @@ var _ = require('lodash');
             tableData={tableData}
             numOfRows={numOfDisplayCountries}
             countryIds={displayCountryIds}
-            dataIndex={dataIndex}/>,
+            dataIndex={dataIndex}
+            lastSelected={lastSelected}
+            multiSelectDefault={multiSelectDefault}
+            selectedCountries={selectedCountries} />,
         document.getElementById('wrapper')
-        );
+    );
 
     /*
         Selectors
