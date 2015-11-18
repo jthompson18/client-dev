@@ -1,13 +1,12 @@
 var $ = require('jquery');
 global.jQuery = $
 global.jquery = $
-// we should probably move to react-select
-// var select2 = require('select2');
 var highcharts = require('highcharts-browserify');
-jquery.mousewheel = require('jquery.mousewheel');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactSelect = require('react-select');
+var rd3 = require('react-d3');
+var rd3Basic = require('react-d3-basic');
 var _ = require('lodash');
 
 
