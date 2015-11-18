@@ -11,6 +11,5 @@ To fix the issue line 53  in /node-modules/react-d3-core/lib/index.js
 
 - `require('../css/axis.css');`
 
-needs to be removed
-the corrisponding css file has been added to this projects /css directory and is loaded
+needs to be removed. The corrisponding css file has been added to this projects /css directory and is loaded
 in the index.html file.
