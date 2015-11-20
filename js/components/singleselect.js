@@ -5,7 +5,7 @@ var SingleSelect = React.createClass({
     displayName: 'SingleSelect',
     propTypes: {
         label: React.PropTypes.string,
-		value: React.PropTypes.object,
+		value: React.PropTypes.object
 	},
 
     onSelectValue (newValue) {

@@ -1,5 +1,6 @@
 const React = require('react'),
-      SingleSelect = require('./singleselect.js');
+      SingleSelect = require('./singleselect.js'),
+      MultiSelect = require('./multiselect.js');
 
 // TODO move this data the parent (PrimaryContent) which controls the state
 // Assign a title for label field instead of the filename
@@ -11,6 +12,16 @@ var dataFiles = [
     {"value": "mean_schooling_female.json", "label": "mean_schooling_female.json"},
     {"value": "mean_schooling_male.json", "label": "mean_schooling_male.json"},
     {"value": "prison_pop_per_100000.json", "label": "prison_pop_per_100000.json"}
+];
+
+// TODO should this be a fixed list of countries or vary according to the json loaded
+var multiSelectOptions =  [
+    {value:"unitedStates", label:"United States"},
+    {value:"cuba", label:"Cuba"},
+    {value:"poland", label:"Poland"},
+    {value:"libya", label:"Libya"},
+    {value:"malaysia", label:"Malaysia"},
+    {value:"congo", label:"Congo"}
 ];
 
 var SectionHeading = React.createClass({
@@ -31,7 +42,12 @@ var SectionHeading = React.createClass({
 
                 </section>
                 <section className="selector-left">
-                    <h2>MultiSelector</h2>
+
+                    <MultiSelect
+                        label="Select the countries you would like to compare:"
+                        value={multiSelectOptions[0]}
+                        options={multiSelectOptions} />
+
                 </section>
             </section>
         );
