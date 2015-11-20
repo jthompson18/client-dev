@@ -26,6 +26,7 @@ var multiSelectOptions =  [
 
 var SectionHeading = React.createClass({
     render: function () {
+        // TODO add headers according to data selected
         return (
             <section className="section-title">
                 <section className="selector-left">
@@ -33,12 +34,16 @@ var SectionHeading = React.createClass({
                     <SingleSelect
                         label="Select data 1: "
                         options={dataFiles}
-                        value={dataFiles[0]} />
+                        value={dataFiles[0]}
+                        name="select1"
+                        onSelectChange={this.props.onSelectDataChange} />
 
                     <SingleSelect
                         label="Select data 2: "
                         options={dataFiles}
-                        value={dataFiles[1]} />
+                        value={dataFiles[1]}
+                        name="select2"
+                        onSelectChange={this.props.onSelectDataChange} />
 
                 </section>
                 <section className="selector-left">
@@ -46,7 +51,8 @@ var SectionHeading = React.createClass({
                     <MultiSelect
                         label="Select the countries you would like to compare:"
                         value={multiSelectOptions[0]}
-                        options={multiSelectOptions} />
+                        options={multiSelectOptions}
+                        onMultiSelectChange={this.props.onMultiSelectChange} />
 
                 </section>
             </section>

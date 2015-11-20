@@ -23,10 +23,12 @@ var MultiSelect = React.createClass({
         }
         // TODO check need to change the state here
         // Is the whole MultiSelect being rerendered whenever a value is selected or removed?
+        // find a way to prevent the event to be called in case a user tries to remove the default selected value
         this.setState({
             value: value
         });
-        console.log('New value:', value, 'Values:', values);
+        // console.log('New value:', value, 'Values:', values);
+        this.props.onMultiSelectChange(values);
     },
 
     render: function () {

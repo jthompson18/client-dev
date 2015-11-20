@@ -5,11 +5,12 @@ var SingleSelect = React.createClass({
     displayName: 'SingleSelect',
     propTypes: {
         label: React.PropTypes.string,
-		value: React.PropTypes.object
+		value: React.PropTypes.object,
+        name: React.PropTypes.string
 	},
 
     onSelectValue (newValue) {
-        console.log('Value selected ' + newValue);
+        this.props.onSelectChange(newValue, this.props.name);
     },
 
     render: function () {
