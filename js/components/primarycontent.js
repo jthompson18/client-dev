@@ -1,10 +1,11 @@
-const React = require('react');
+const React = require('react'),
+      SectionHeading = require('./sectionheading.js');
 
 var PrimaryContent = React.createClass({
     render: function () {
         return (
             <section id="content">
-                <h1>I am PrimaryContent!</h1>
+                <SectionHeading />
             </section>
         );
     }
