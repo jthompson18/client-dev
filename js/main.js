@@ -1,14 +1,13 @@
-var $ = require('jquery');
-global.jQuery = $
-global.jquery = $
-var highcharts = require('highcharts-browserify');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactSelect = require('react-select');
-var rd3 = require('react-d3');
-var rd3Basic = require('react-d3-basic');
-var _ = require('lodash');
+const $ =           require('jquery'),
+      React =       require('react'),
+      ReactDOM =    require('react-dom'),
+      ReactSelect = require('react-select'),
+      //Chart =       require('react-d3-core').Chart,
+      //LineChart =   require('react-d3-basic').LineChart,
+      _ =           require('lodash'),
+      load =        require('./loadData');
 
+global.jQuery = $;
 
 // $function({
 /*
@@ -602,4 +601,4 @@ ReactDOM.render(
         multiSelectDefault={multiSelectDefault}
         selectedCountries={selectedCountries} />,
     document.getElementById('wrapper')
-);    
+);
