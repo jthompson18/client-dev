@@ -1,7 +1,8 @@
 var $ = require('jquery');
-global.jQuery = $
-global.jquery = $
-var highcharts = require('highcharts-browserify');
+global.jQuery = $;
+global.jquery = $;
+var d3 = require('d3');
+global.d3 = d3;
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ReactSelect = require('react-select');
