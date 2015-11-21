@@ -1,3 +1,5 @@
+'use strict';
+
 const $ = require('jquery'),
       React = require('react'),
       SectionHeading = require('./sectionheading.js'),
@@ -16,16 +18,6 @@ var dataFiles = [
     {"value": "mean_schooling_female.json", "label": "mean_schooling_female.json"},
     {"value": "mean_schooling_male.json", "label": "mean_schooling_male.json"},
     {"value": "prison_pop_per_100000.json", "label": "prison_pop_per_100000.json"}
-];
-
-// TODO should this be a fixed list of countries or vary according to the json loaded
-var multiSelectOptions =  [
-    {value:"unitedStates", label:"United States"},
-    {value:"cuba", label:"Cuba"},
-    {value:"poland", label:"Poland"},
-    {value:"libya", label:"Libya"},
-    {value:"malaysia", label:"Malaysia"},
-    {value:"congo", label:"Congo"}
 ];
 
 var singleSelectOptions = [
@@ -57,11 +49,13 @@ var PrimaryContent = React.createClass({
 
     // TODO load data here as an event triggered by its children and pass the data as property ???
     getInitialState: function () {
+        var defaultItem = {value:"UnitedStates", label:"United States"};
         return {
             dataS1: [], // data from the select 1 - should it be state or prop?
             dataS2: [], // data from the select 2
-            selectedCountries: [multiSelectOptions[0]], // United States
-            indexSelected: singleSelectOptions[0]
+            selectedCountries: [defaultItem],
+            indexSelected: singleSelectOptions[0],
+            multiSelectOptions: [defaultItem]
         };
     },
 
@@ -88,14 +82,30 @@ var PrimaryContent = React.createClass({
         this.setState({selectedCountries: selectedCountries});
     },
 
+    getKeysFromData: function (data) {
+        var keys = [];
+        for (let i = 0; i < data.length; i++) {
+            // regex: http://stackoverflow.com/questions/9364400/remove-not-alphanumeric-characters-from-string-having-trouble-with-the-char
+            let key = data[i].name.replace(/\W/g, ''); // Removing non-alphanumeric chars
+            keys[i] = {
+                value: key,
+                label: data[i].name
+            };
+        }
+        if (keys.length > 0) {
+            this.setState({multiSelectOptions: keys});
+        }
+    },
+
     componentDidMount: function () {
         // TODO call it with a default file
         loadJSONData('data/fem_pop.json', function (data) {
             var dataS1 = data;
             loadJSONData('data/hdiData.json', function(data) {
+                this.getKeysFromData(data);
                 this.setState({
-                    dataS1: dataS1,
-                    dataS2: data
+                    dataS1: data,
+                    dataS2: dataS1
                 });
             }.bind(this));
         }.bind(this));
@@ -110,7 +120,7 @@ var PrimaryContent = React.createClass({
             <section id="content">
                 <SectionHeading
                     files={dataFiles}
-                    multiSelectOptions={multiSelectOptions}
+                    multiSelectOptions={this.state.multiSelectOptions}
                     onSelectDataChange={this.handleSelectDataChange}
                     onMultiSelectChange={this.handleMultiSelectChange} />
 

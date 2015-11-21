@@ -12,14 +12,14 @@ var SectionHeading = React.createClass({
                     <SingleSelect
                         label="Select data 1: "
                         options={this.props.files}
-                        value={this.props.files[0]}
+                        value={this.props.files[1]}
                         name="select1"
                         onSelectChange={this.props.onSelectDataChange} />
 
                     <SingleSelect
                         label="Select data 2: "
                         options={this.props.files}
-                        value={this.props.files[1]}
+                        value={this.props.files[0]}
                         name="select2"
                         onSelectChange={this.props.onSelectDataChange} />
 
