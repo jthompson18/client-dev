@@ -9,7 +9,16 @@ var SingleSelect = React.createClass({
         name: React.PropTypes.string
 	},
 
+    getInitialState () {
+		return {
+            value: this.props.value
+		};
+	},
+
     onSelectValue (newValue) {
+        this.setState({
+			value: newValue
+		});
         this.props.onSelectChange(newValue, this.props.name);
     },
 

@@ -70,8 +70,13 @@ var PrimaryContent = React.createClass({
         // for fieldName = select3, data = year selected
         if (fieldName == 'select1') {
             // load data and set state dataS1
+            loadJSONData('data/'+data, function (data) {
+                this.setState({dataS1: data});
+            }.bind(this));
         } else if (fieldName == 'select2') {
-            // load data and set state dataS2
+            loadJSONData('data/'+data, function (data) {
+                this.setState({dataS2: data});
+            }.bind(this));
         } else if (fieldName == 'select3') {
             this.setState({indexSelected: data});
         }
@@ -122,12 +127,6 @@ var PrimaryContent = React.createClass({
                         onSelectChange={this.handleSelectDataChange} />
                 </section>
 
-                <section className="table-align-left">
-                    <Table
-                        data={this.state.dataS1}
-                        indexSelected={this.state.indexSelected}
-                        selectedCountries={this.state.selectedCountries} />
-                </section>
             </section>
         );
     },
