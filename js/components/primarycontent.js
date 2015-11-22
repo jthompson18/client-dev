@@ -7,7 +7,8 @@ const $ = require('jquery'),
       SingleSelect = require('./singleselect.js'),
       Table = require('./table.js'),
       LineChart = require('./linechart/reactD3LineChart.js'),
-      Chart = require('./linechart/reactD3BaseChart.js');
+      Chart = require('./linechart/reactD3BaseChart.js'),
+      _ = require('lodash');
 
 global.jQuery = $;
 
@@ -98,7 +99,47 @@ var PrimaryContent = React.createClass({
             this.setState({multiSelectOptions: keys});
         }
     },
-
+    setupChartData: function(data, dataS1){
+        var  chartData1 = [];
+        for (var i = 0; i < data.length;i++){
+            var countryDatapoint = [];
+            var countryDatayear = [];
+            var objectKeys = _.keys(data[i]);
+             for (var j = 0; j < objectKeys.length;j++){
+                if (objectKeys [j] != 'name'){
+                    countryDatapoint.push(data[i][objectKeys[j]]);
+                    countryDatayear.push(objectKeys[j]);            
+                }
+             }
+             var dataObject = {
+                label: data[i]['name'], 
+                fields: countryDatapoint,
+                years: countryDatayear 
+                };
+            chartData1.push(dataObject);
+        }   
+        return chartData1;
+        // debugger
+        // var  chartData2 = [];
+        // for (var i = 0; i < dataS1.length;i++){
+        //     var countryDatapoint = [];
+        //     var countryDatayear = [];
+        //     var objectKeys = _.keys(dataS1[i]);
+        //      for (var j = 0; j < objectKeys.length;j++){
+        //         if (objectKeys [j] != 'name'){
+        //             countryDatapoint.push(dataS1[i][objectKeys[j]]);
+        //             countryDatayear.push(objectKeys[j]);            
+        //         }
+        //      }
+        //      var dataObject = {
+        //         label: dataS1[i]['name'], 
+        //         fields: countryDatapoint,
+        //         years: countryDatayear 
+        //         };
+        //     chartData2.push(dataObject)
+        // }  
+        // debugger
+    }, 
     componentDidMount: function () {
         // TODO call it with a default file
         loadJSONData('data/fem_pop.json', function (data) {
@@ -106,6 +147,7 @@ var PrimaryContent = React.createClass({
             loadJSONData('data/hdiData.json', function(data) {
                 this.getKeysFromData(data);
                 this.setState({
+                    chartData: this.setupChartData(data, dataS1),
                     dataS1: data,
                     dataS2: dataS1
                 });
@@ -118,7 +160,7 @@ var PrimaryContent = React.createClass({
         var hdiHelpText2 = "The Human Development Index (HDI) is a composite index measuring average of the three basic metrics of human development: life expectancy, education rate, and average standard of living.";
         var hdiInfoLink = "http://hdr.undp.org/en";
 
-        var chartData = singleSelectOptions;
+        var chartData = this.state.chartData;
 
         var width = 700,
             height = 300,
@@ -130,20 +172,20 @@ var PrimaryContent = React.createClass({
             // color: what color is the line
             chartSeries = [
               {
-                field: 'value',
-                name: 'Value',
+                field: 'field',
+                name: 'label',
                 color: '#ff7f0e'
               }
             ],
             // your x accessor
             x = function(d) {
-                return d.value;
+                return d;
             },
             y = function(d) {
                 return d;
             },
-            xScale = 'linear',
-            yScale = 'linear';
+            xScale = 'identity',
+            yScale = 'identity';
 
 
         return (
