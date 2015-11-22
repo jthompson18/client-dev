@@ -141,7 +141,7 @@ var PrimaryContent = React.createClass({
             },
             y = function(d) {
                 return d;
-            }
+            },
             xScale = 'linear',
             yScale = 'linear';
 
