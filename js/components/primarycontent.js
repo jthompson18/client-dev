@@ -90,8 +90,6 @@ var PrimaryContent = React.createClass({
         } else if (fieldName == 'select3') {
             this.setState({indexSelected: data});
         }
-
-        console.log(data, fieldName);
     },
 
     updateChartData: function(dataS1, dataS2, selectedCountries) {
