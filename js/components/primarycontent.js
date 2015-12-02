@@ -2,6 +2,7 @@
 
 const $ = require('jquery'),
       React = require('react'),
+      _ = require('lodash'),
       SectionHeading = require('./sectionheading.js'),
       HelpText = require('./helptext.js'),
       SingleSelect = require('./singleselect.js'),
@@ -11,15 +12,16 @@ const $ = require('jquery'),
 
 global.jQuery = $;
 
-// TODO Assign a title for label field instead of the filename
 var dataFiles = [
-    {"value": "fem_pop.json", "label": "fem_pop.json"},
-    {"value": "hdiData.json", "label": "hdiData.json"},
-    {"value": "life_expect.json", "label": "life_expect.json"},
-    {"value": "mal_pop.json", "label": "mal_pop.json"},
-    {"value": "mean_schooling_female.json", "label": "mean_schooling_female.json"},
-    {"value": "mean_schooling_male.json", "label": "mean_schooling_male.json"},
-    {"value": "prison_pop_per_100000.json", "label": "prison_pop_per_100000.json"}
+    {"value": "fem_pop.json", "label": "Female Population per 10000"},
+    // This does not scale well. Most of this doesn't, but this one is especially bad
+    // {"value": "hdiData.json", "label": "Human Development Index"},
+    {"value": "life_expect.json", "label": "Avg Life expectancy"},
+    {"value": "mal_pop.json", "label": "Male Population per 10000"},
+    {"value": "mean_schooling_female.json", "label": "Mean Years of Schooling-Female"},
+    {"value": "mean_schooling_male.json", "label": "Mean Years of Schooling-Male"}
+    // not enough data for this to be usable
+    // {"value": "prison_pop_per_100000.json", "label": "prison_pop_per_100000.json"}
 ];
 
 var singleSelectOptions = [
@@ -61,17 +63,29 @@ var PrimaryContent = React.createClass({
         };
     },
 
+    updateChartState: function(dataS1, dataS2, selectedCountries) {
+        var chartData = this.updateChartData(dataS1, dataS2, selectedCountries),
+            chartSeries = this.getChartSeries(selectedCountries);
+        this.setState({
+            selectedCountries: selectedCountries,
+            dataS1: dataS1,
+            dataS2: dataS2,
+            chartSeries: chartSeries,
+            chartData: chartData,
+        });
+    },
+
     handleSelectDataChange: function (data, fieldName) {
         // for fieldName = select1 or select2, data = json filename
         // for fieldName = select3, data = year selected
         if (fieldName == 'select1') {
             // load data and set state dataS1
             loadJSONData('data/'+data, function (data) {
-                this.setState({dataS1: data});
+                this.updateChartState(data, this.state.dataS2, this.state.selectedCountries)
             }.bind(this));
         } else if (fieldName == 'select2') {
             loadJSONData('data/'+data, function (data) {
-                this.setState({dataS2: data});
+                this.updateChartState(this.state.dataS1, data, this.state.selectedCountries)
             }.bind(this));
         } else if (fieldName == 'select3') {
             this.setState({indexSelected: data});
@@ -80,8 +94,109 @@ var PrimaryContent = React.createClass({
         console.log(data, fieldName);
     },
 
+    updateChartData: function(dataS1, dataS2, selectedCountries) {
+        var selectedCountriesLen = selectedCountries.length;
+
+        if(dataS1.length > 0 && dataS2.length > 0) {
+
+            //pre sorting data based on country name
+            dataS1 = _.sortBy(dataS1, 'name');
+            dataS2 = _.sortBy(dataS2, 'name');
+
+            if (dataS1.length > dataS2.length) {
+                var dataLength = dataS1.length;
+            }
+            else {
+               var dataLength = dataS2.length ;
+            }
+            var chartData = [];
+            for(let i = 0; i<dataLength; i++) {
+                var d1 = dataS1[i],
+                    d2 = dataS2[i],
+                    dataKeys = _.keys(dataS1[i]),
+                    numOfKeys = dataKeys.length;
+
+                for(let j = 0; j<numOfKeys; j++){
+                    if (dataKeys[j] != 'name') {
+                        var dataObj = {
+                            'xVal': dataKeys[j]
+                        };
+                        for (let k = 0; k < selectedCountriesLen; k++){
+                            if (d1['name'] == selectedCountries[k]['label']) {
+                                for(let l = 0; l <chartData.length; l++) {
+                                    var cData = chartData[l]
+                                    if (_.has(cData, 'd1series0') && cData['xVal'] == dataKeys[j]){
+                                        dataObj = cData;
+                                    }
+                                }
+                                
+                                var seriesLabel1 = "d1series" + k,
+                                    seriesLabel2 = "d2series" + k,
+                                    d1Data = d1[dataKeys[j]],
+                                    d2Data = d2[dataKeys[j]];
+
+                                // Not a real solution for mismatch data years, but good enough for final project
+                                if (typeof d1Data === 'undefined') {
+                                    d1Data = d1[dataKeys[j - 1]];
+                                }
+                                if (typeof d2Data === 'undefined') {
+                                    d2Data = d2[dataKeys[j - 1]];
+                                    if (typeof d2Data === 'undefined') {
+                                        d2Data = d2[dataKeys[0]];
+                                    }
+                                }
+
+                                if (d1Data.indexOf(',') > 0) {
+                                    d1Data = d1Data.replace(',', '');
+                                }
+                                if(d2Data.indexOf(',') > 0){
+                                    d2Data = d2Data.replace(',', '');
+                                }
+                                dataObj[seriesLabel1] = _.parseInt(d1Data);
+                                dataObj[seriesLabel2] = _.parseInt(d2Data);
+
+                            }
+                        }
+                        chartData.push(dataObj);
+                    }
+                }
+            }
+            _.remove(chartData, function(n) {
+              if (!_.has(n, 'd1series0')){
+                    return n;
+                }
+            });
+            chartData = _.uniq(chartData, function (n) {
+                return n['xVal'];
+            });
+            
+            return chartData;
+        }
+    },
+
+    getChartSeries: function(selectedCountries) {
+        var selectedCountriesLen = selectedCountries.length,
+            chartSeries = [];
+        for (let i = 0; i < selectedCountriesLen; i++){
+            var field1 = "d1series" + i,
+                field2 = "d2series" + i,
+                series1 = {
+                    'name': selectedCountries[i]['label'],
+                    'field': field1
+                },
+                series2 = {
+                    'name': selectedCountries[i]['label'],
+                    'field': field2
+                };
+            chartSeries.push(series1);
+            chartSeries.push(series2);
+        }
+        
+        return chartSeries;
+    },
+
     handleMultiSelectChange: function(selectedCountries) {
-        this.setState({selectedCountries: selectedCountries});
+        this.updateChartState(this.state.dataS1, this.state.dataS2, selectedCountries);
     },
 
     getKeysFromData: function (data) {
@@ -95,19 +210,25 @@ var PrimaryContent = React.createClass({
             };
         }
         if (keys.length > 0) {
-            this.setState({multiSelectOptions: keys});
+            // this.setState({multiSelectOptions: keys});
+            return keys;
         }
     },
 
     componentDidMount: function () {
         // TODO call it with a default file
-        loadJSONData('data/fem_pop.json', function (data) {
+        loadJSONData('data/mean_schooling_female.json', function (data) {
             var dataS1 = data;
-            loadJSONData('data/hdiData.json', function(data) {
-                this.getKeysFromData(data);
+            loadJSONData('data/mean_schooling_male.json', function(data) {
+                var multiSelectOptions = this.getKeysFromData(data),
+                    chartData = this.updateChartData(dataS1, data, this.state.selectedCountries),
+                    chartSeries = this.getChartSeries(this.state.selectedCountries);
                 this.setState({
-                    dataS1: data,
-                    dataS2: dataS1
+                    dataS1: dataS1,
+                    dataS2: data,
+                    multiSelectOptions: multiSelectOptions,
+                    chartSeries: chartSeries,
+                    chartData: chartData,
                 });
             }.bind(this));
         }.bind(this));
@@ -118,31 +239,32 @@ var PrimaryContent = React.createClass({
         var hdiHelpText2 = "The Human Development Index (HDI) is a composite index measuring average of the three basic metrics of human development: life expectancy, education rate, and average standard of living.";
         var hdiInfoLink = "http://hdr.undp.org/en";
 
-        var chartData = singleSelectOptions;
+        if (typeof this.state.chartData === 'undefined') {
+            return null;
+            }
+
+        var chartData = this.state.chartData;
+
+        var chartSeries = this.state.chartSeries;
+
+        var parseDate = d3.time.format("%Y").parse;
 
         var width = 700,
             height = 300,
             margins = {left: 100, right: 100, top: 50, bottom: 50},
-            title = "Test",
-            // chart series,
-            // field: is what field your data want to be selected
-            // name: the name of the field that display in legend
-            // color: what color is the line
-            chartSeries = [
-              {
-                field: 'value',
-                name: 'Value',
-                color: '#ff7f0e'
-              }
-            ],
-            // your x accessor
+            title = "",
+
+            //x accessor; d = chartData[i]
             x = function(d) {
-                return d.value;
+                return parseDate(d.xVal);
             },
+
+            //y accessor; d = chartData[i][field]
             y = function(d) {
                 return d;
             },
-            xScale = 'linear',
+
+            xScale = 'time',
             yScale = 'linear';
 
 
@@ -165,7 +287,7 @@ var PrimaryContent = React.createClass({
                   margins= {margins}
                   >
                   <LineChart
-                    margins= {margins}
+                    margins={margins}
                     title={title}
                     data={chartData}
                     width={width}

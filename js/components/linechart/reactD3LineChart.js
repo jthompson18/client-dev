@@ -110,13 +110,6 @@ var LineChart = React.createClass({
       });
     }
 
-    // if (showScatter && !interpolate) {
-    //   // show scatters in line chart
-    //   var scatters = chartSeriesData.map(function (d, i) {
-    //     return React.createElement(_componentsScatter, _extends({ dataset: d, key: i }, _this.props, _this.state, { xScaleSet: xScaleSet, yScaleSet: yScaleSet, chartSeriesData: chartSeriesData }));
-    //   });
-    // }
-
     return React.createElement(
       'g',
       null,
