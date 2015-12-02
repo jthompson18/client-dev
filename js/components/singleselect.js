@@ -30,7 +30,7 @@ var SingleSelect = React.createClass({
                     simpleValue
                     name={this.props.name}
                     options={this.props.options}
-                    value={this.props.value}
+                    value={this.state.value}
                     onChange={this.onSelectValue} />
             </div>
         );
