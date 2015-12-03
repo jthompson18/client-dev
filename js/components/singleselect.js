@@ -25,7 +25,7 @@ var SingleSelect = React.createClass({
     render: function () {
         return (
             <div className="section">
-                <h3 className="section-heading">{this.props.label}</h3>
+                <label className="section-heading">{this.props.label}</label>
                 <ReactSelect
                     simpleValue
                     name={this.props.name}

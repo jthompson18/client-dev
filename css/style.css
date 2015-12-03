@@ -1,3 +1,6 @@
+html{
+	position: relative;
+}
 
 html,
 body {
@@ -5,13 +8,25 @@ body {
   padding:0;
   height:100%;
 }
+.section .Select-control{
+	width:40%;
+}
+.section-heading{
+	float:left;
+	padding:10px;
+	font-size:14px;
+	
+}
 #wrapper {
+	width: 1024px;
+	margin: 0 auto;
   font: 14px Tahoma;
-  position:absolute;
+
   min-height: 100%;
   background-color: #FCFCFF;
   color: #20130A;
-  width: 100%;
+  
+  
 }
 #header {
   text-align: center;
@@ -39,9 +54,7 @@ h2{
 .selector-left{
   text-align: left;
 }
-.selector-left > div {
-    width: 40%;
-}
+
 .help-text {
   color: #514A3E;
   text-align: left;
@@ -101,13 +114,11 @@ td .header {
 /*design for the footer section of the web page*/
 #footer {
   height: 30px;
-  position: absolute;
   text-align:center;
   bottom:0;
   left: 0;
-  right: 0;
-  width: 100%;
 }
+
 .bottom-nav{
   line-height: 30px;
   color: #20130A;
