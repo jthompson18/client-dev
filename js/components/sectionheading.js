@@ -1,3 +1,4 @@
+
 const React = require('react'),
       SingleSelect = require('./singleselect.js'),
       MultiSelect = require('./multiselect.js');
@@ -7,7 +8,7 @@ var SectionHeading = React.createClass({
         // TODO add headers according to data selected
         return (
             <section className="section-title">
-                <section className="selector-left">
+                <section className="selector-left select-data">
 
                     <SingleSelect
                         label="Select data 1: "
