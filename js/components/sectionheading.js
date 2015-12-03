@@ -8,7 +8,7 @@ var SectionHeading = React.createClass({
         // TODO add headers according to data selected
         return (
             <section className="section-title">
-                <section className="selector-left select-data">
+                <section className="select-data">
 
                     <SingleSelect
                         label="Select data 1: "
@@ -25,7 +25,7 @@ var SectionHeading = React.createClass({
                         onSelectChange={this.props.onSelectDataChange} />
 
                 </section>
-                <section className="selector-left">
+                <section className="select-data">
 
                     <MultiSelect
                         label="Select the countries you would like to compare:"

@@ -1,6 +1,3 @@
-html{
-	position: relative;
-}
 
 html,
 body {
@@ -8,28 +5,17 @@ body {
   padding:0;
   height:100%;
 }
-.section .Select-control{
-	width:40%;
-}
-.section-heading{
-	float:left;
-	padding:10px;
-	font-size:14px;
-	
-}
 #wrapper {
-	width: 1024px;
-	margin: 0 auto;
   font: 14px Tahoma;
-
+  position:absolute;
   min-height: 100%;
   background-color: #FCFCFF;
   color: #20130A;
-  
-  
+  width: 100%;
 }
 #header {
   text-align: center;
+  padding-top: 15px;
 }
 #content {
   margin: 20px;
@@ -43,22 +29,54 @@ body {
 h1{
 	font: bold 24px Tahoma;
   text-align: center;
+  margin-bottom: 5px;
 }
 h2{
 	font: bold 20px Tahoma;
 }
 .section-title{
   margin-top: 20px;
+  text-align: center;
+}
+.select-data{
+  display: inline-flex;
+  margin-bottom: 25px;
+}
+.single-select{
+  display: inline-flex;
+  padding-right: 35px;
+}
+.single-select-label{
+  padding-top: 8px;
+  padding-right: 10px;
+  font-size: 16px;
+}
+.single-select .Select{
+  min-width: 250px;
+}
+.multi-select{
+  display: inline-flex;
+}
+.multi-select .Select{
+  min-width: 500px;
   text-align: left;
 }
-.selector-left{
-  text-align: left;
+.multi-select-label{
+  padding-top: 15px;
+  padding-right: 10px;
+  font-size: 16px;
 }
-
 .help-text {
   color: #514A3E;
-  text-align: left;
-  width: 830px;
+  text-align: center;
+  font-size: 16px;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+.chart-center{
+  text-align: center;
+  margin: auto;
+  width: 50%;
 }
 .table-align-left{
   float: left;
@@ -114,11 +132,13 @@ td .header {
 /*design for the footer section of the web page*/
 #footer {
   height: 30px;
+  position: absolute;
   text-align:center;
   bottom:0;
   left: 0;
+  right: 0;
+  width: 100%;
 }
-
 .bottom-nav{
   line-height: 30px;
   color: #20130A;

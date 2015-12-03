@@ -33,8 +33,8 @@ var MultiSelect = React.createClass({
 
     render: function () {
         return (
-            <div className="section">
-                <label className="section-heading">{this.props.label}</label>
+            <div className="multi-select">
+                <label className="multi-select-label">{this.props.label}</label>
                 <ReactSelect
                     multi
                     simpleValue
